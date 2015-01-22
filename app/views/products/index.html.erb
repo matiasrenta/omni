@@ -1,0 +1,62 @@
+<h1>Listing products</h1>
+
+
+<% if current_user %>
+    Signed in as <%= current_user.name %>!
+    <%= link_to "Sign out", signout_path %>
+<% else %>
+    <br/>
+    <%= link_to "Sign in with Umanager", "/auth/umanager" %>
+
+    <p>
+      <strong>No usas estos servicios?</strong>
+      <%= link_to "Crea tu cuenta", new_identity_path %> o inicia sesión abajo.
+    </p>
+
+    <%= form_tag "/auth/identity/callback" do %>
+        <div class="field">
+          <%= label_tag :auth_key, "Email" %><br>
+          <%= text_field_tag :auth_key %>
+        </div>
+        <div class="field">
+          <%= label_tag :password %><br>
+          <%= password_field_tag :password %>
+        </div>
+        <div class="actions"><%= submit_tag "Login" %></div>
+    <% end %>
+<% end %>
+
+
+
+
+
+
+
+<br/><br/><br/><br/>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= link_to 'Show', product %></td>
+        <td><%= link_to 'Edit', edit_product_path(product) %></td>
+        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Product', new_product_path %>
+
